@@ -6,44 +6,49 @@ let bowling = {
         { 'name': 'Giuseppe', 'scores': [] }
     ],
 
-    addNewPlayer: function(name){
-        this.players.push({ name, 'scores': [] });
-    },
-
     generateRandomScores: function(){
         this.players.forEach(player => {
-            for (let i = 0; i < 10; i++) {
-                player.scores.push(Math.floor(Math.random() * (10 - 1 + 1)) + 1);
+            for (let i = 1; i <= 10; i++) {
+                player.scores.push(Math.floor(Math.random() * (10 - 1 + 1) + 1));
             }
+            console.log(player.scores);
         });
+    },
+    
+    addNewPlayer: function(nome){
+        let newPlayer = {name: nome, scores: []}
+        for (let i = 1; i <= 10; i++) {
+            newPlayer.scores.push(Math.floor(Math.random() * (10 - 1 + 1) + 1));
+        }
+        this.players.push(newPlayer)
+        console.log(newPlayer.scores);
     },
 
     calculateTotalScore: function(){
         this.players.forEach(player => {
-            player.totalScore = player.scores.reduce((acc, score) => acc + score, 0);
-        });
+            let tot = player.scores.reduce((acc, num)=> acc + num)
+            player.total = tot
+        })
+        this.players.sort((a, b)=> b.total - a.total)
     },
 
     getWinner: function(){
-        this.players.sort((a, b) => b.totalScore - a.totalScore);
-        return this.players[0];
+        let winner = this.players[0]
+        console.log(`IL VINCITORE E' ${winner.name} con ${winner.total} punti`)
     },
 
     getRanking: function(){
-        this.calculateTotalScore();
-        this.players.sort((a, b) => b.totalScore - a.totalScore);
-        return this.players;
-    },
+        console.log(`CLASSIFICA FINALE:`)
+        this.players.forEach(player => {
+            console.log(`${player.name} con ${player.total} punti`);
+        })
+    }
 }
 
-
-bowling.addNewPlayer('Giovanni')
-bowling.addNewPlayer('Federica')
-
-bowling.generateRandomScores();
-bowling.calculateTotalScore();
-
-console.log('Vincitore: ', bowling.getWinner());
-console.log('Classifica: ', bowling.getRanking());
+bowling.generateRandomScores()
+bowling.addNewPlayer('Mario')
+bowling.calculateTotalScore()
+bowling.getWinner()
+bowling.getRanking()
 
 
